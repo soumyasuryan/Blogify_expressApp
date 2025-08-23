@@ -1,0 +1,20 @@
+<%- include("partials/header.ejs") %>
+<div class="container" id="container5">
+    <div class="container6">
+    <h1><%= title %></h1>
+    <h6><%= date %></h6>
+    <p><%= content %></p>
+    </div>
+    <hr>
+    <h2>Write the updated content below</h2>
+<form action="/change" method="POST">
+    <input type="hidden" name="index" value="<%= indx %>">
+  <input name="title" type="text" class="feedback-input" placeholder="Title" />
+  <input name="date" type="text" class="feedback-input" placeholder="Date" />
+  <textarea name="text" class="feedback-input" placeholder="Blog Content"></textarea>
+  <input type="submit" value="SUBMIT" style="width: 100px;margin-top: 10px; background-color: #006fe5;color: white;"/>
+</form>    
+</div>
+
+<hr>
+<%- include("partials/footer.ejs") %>
