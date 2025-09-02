@@ -18,11 +18,22 @@ app.get("/create",(req,res)=>{
 app.get("/submit_blog",(req,res)=>{
     res.render("index3.ejs")
 })
-app.post("/submit",(req,res)=>{
-    titles.push(req.body["title"])
-    dates.push(req.body["date"])
-    contents.push(req.body["text"])     
-})
+app.post("/submit", (req, res) => {
+  const title = req.body["title"]?.trim();
+  const date = req.body["date"]?.trim();
+  const content = req.body["text"]?.trim();
+
+  if (!title || !date || !content) {
+    return res.render("index3.ejs", { error: "⚠️ All fields are required!" });
+  }
+
+  titles.push(title);
+  dates.push(date);
+  contents.push(content);
+
+  
+  return res.render("index3.ejs",{ message: "Blog posted successfully!✅" })
+});
 app.get("/view",(req,res)=>{
     res.render("index5.ejs",{titles,dates,contents})
 })
@@ -53,17 +64,41 @@ app.get("/update/:index",(req,res)=>{
   }
 })
 app.post("/change", (req, res) => {
-    const indx = parseInt(req.body.index);
+  const indx = parseInt(req.body.index);
 
-    if (!isNaN(indx) && indx >= 0 && indx < titles.length) {
-        // Update in place
-        titles[indx] = req.body.title;
-        dates[indx] = req.body.date;
-        contents[indx] = req.body.content;
+  if (!isNaN(indx) && indx >= 0 && indx < titles.length) {
+    const title = req.body.title?.trim();
+    const date = req.body.date?.trim();
+    const content = req.body.text?.trim();
+
+    if (!title || !date || !content) {
+      return res.render("index4.ejs", {
+        error: "⚠️ All fields are required!",
+        indx,
+        title: titles[indx],
+        date: dates[indx],
+        content: contents[indx]
+      });
     }
 
-    res.redirect("/view");
+
+    titles[indx] = title;
+    dates[indx] = date;
+    contents[indx] = content;
+
+    return res.render("index4.ejs", {
+      message: "✅ Updated Successfully!",
+      indx,
+      title,
+      date,
+      content
+    });
+  }
+
+
+  res.status(404).send("Blog not found!");
 });
+
 
 app.listen(port,()=>{
     console.log('Listening on port '+port);

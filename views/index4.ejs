@@ -7,12 +7,18 @@
     </div>
     <hr>
     <h2>Write the updated content below</h2>
-<form action="/change" method="POST">
+<form action="/change" method="POST" id="update_form">
     <input type="hidden" name="index" value="<%= indx %>">
-  <input name="title" type="text" class="feedback-input" placeholder="Title" />
-  <input name="date" type="text" class="feedback-input" placeholder="Date" />
-  <textarea name="text" class="feedback-input" placeholder="Blog Content"></textarea>
-  <input type="submit" value="SUBMIT" style="width: 100px;margin-top: 10px; background-color: #006fe5;color: white;"/>
+  <input name="title" type="text" class="feedback-input" placeholder="Title" value="<%=title %>"/>
+  <input name="date" type="text" class="feedback-input" placeholder="Date" value="<%=date %>"/>
+  <textarea name="text" class="feedback-input" placeholder="Blog Content"><%=content %></textarea>
+  <% if (typeof error !== "undefined") { %>
+      <p style="color: red; font-weight: bold;"><%= error %></p>
+    <% } %>
+      <% if (typeof message !== "undefined") { %>
+      <p style="color: green; font-weight: bold;"><%= message  %></p>
+    <% } %>
+  <input type="submit" value="SUBMIT" style="width: 100px;margin-top: 10px; background-color: black;color: white;padding: 0;"/>
 </form>    
 </div>
 
